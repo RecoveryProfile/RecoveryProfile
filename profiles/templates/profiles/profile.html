@@ -1,0 +1,45 @@
+{% extends "recoveryprofile/base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+
+{% block content %}
+     <h2>{% if is_for_self %}My Profile{% else %} {{ profile_for }}'s profile{% endif %}</h2>
+	 <h3>Add a good thing that happened  {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
+	 <form action="/add_good_thing_that_happened_to_{% if is_for_self %}self{% else %}other{% endif %}/" method="post">
+	  {% csrf_token %}
+	  <input type="hidden" name="profile_for" value="{{ profile_for.username }}">
+	 <textarea name="what_happened"></textarea>
+	 <input type="submit" value="Submit">
+	 </form>
+	 <h3>Good things that happened {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
+	 <ul>
+	 {% for good_thing in good_things_that_happened %}
+		<li>{{ good_thing }}</li>
+	{% endfor %}
+	</ul>
+	<h3>Profiles you can access</h3>
+	<ul>
+	 {% for profile in profiles_you_can_acccess %}
+		<li><a href="/profiles/{{ profile.profile_for }}">{{ profile.profile_for }}</a></li>
+	{% endfor %}
+	</ul>
+	<h3>Profiles who can access {% if is_for_self %}your profile{% else %} {{ profile_for }}'s profile{% endif %}</h3>
+
+	<ul>
+	 {% for can_access in who_can_access %}
+		<li><a href="/profiles/{{ can_access.access_for }}">{{ can_access.access_for }}</a></li>
+	{% endfor %}
+	</ul>
+	{% if is_for_self %}
+	<h3>Add user who can access your profile</h3>
+	<form action="/add_user_who_can_access_your_profile/" method="post">
+	  {% csrf_token %}
+	 <label for="add_username">Username</label>
+	 <input type="text" id="add_username" name="add_username" />
+	 <input type="submit" value="Submit">
+	 </form>
+	 {% endif %}
+{% endblock %}
