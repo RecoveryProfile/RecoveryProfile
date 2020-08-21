@@ -17,3 +17,11 @@ urlpatterns = [
     path('add_user_who_can_access_your_profile/', profileviews.add_user_who_can_access_your_profile),
 ]
 
+from django.conf import settings
+from django.contrib.staticfiles import views
+from django.urls import re_path
+
+if settings.DEBUG:
+    urlpatterns += [
+        re_path(r'^static/(?P<path>.*)$', views.serve),
+    ]

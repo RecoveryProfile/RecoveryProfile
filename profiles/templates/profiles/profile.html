@@ -7,6 +7,7 @@ Profile
 
 {% block content %}
      <h2>{% if is_for_self %}My Profile {{ user }}{% else %} {{ profile_for }}'s profile{% endif %}</h2>
+	 <img src="/static/recoveryprofile/thankful_heart.jpg" style="width:200px">
 	 <h3>Add a good thing that happened  {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
 	 <form action="/add_good_thing_that_happened_to_{% if is_for_self %}self{% else %}other{% endif %}/" method="post">
 	  {% csrf_token %}
