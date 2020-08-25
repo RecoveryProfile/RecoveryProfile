@@ -19,7 +19,7 @@ Profile
 	 <textarea name="what_happened" style="margin-left:10px;border:1px solid #000;width:90%; height:150px"></textarea>
 	 <input type="submit" value="Submit">
 	 </form>
-	 <h3>Good things that happened {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
+	 <h3><a id="good_things"></a>Good things that happened {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
 	 <ul>
 	 {% for good_thing in good_things_that_happened %}
 		<li>{{ good_thing }} by {{ good_thing.author}}<!--  {{ good_thing.created_at }} --></li>
