@@ -42,7 +42,7 @@ Profile
 	{% endfor %}
 	</ul>
 	{% if is_for_self %}
-	<h3><a id="/add_user_who_can_access_your_profile"></a>Add user who can access your profile</h3>
+	<h3><a id="add_user_who_can_access_your_profile"></a>Add user who can access your profile</h3>
 	<form action="/add_user_who_can_access_your_profile/" method="post">
 	  {% csrf_token %}
 	 <label for="add_username">Username</label>
