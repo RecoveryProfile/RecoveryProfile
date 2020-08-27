@@ -11,6 +11,9 @@ Profile
 	 <h3>Sections</h3>
 	 <ul><li><a href="#add_good">Add a good thing that happened</a></li>
 	 <li><a href="#good_things">Good things that happened  {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</a></li>
+	 <li><a href="#profiles_you_can_acccess">Profiles you can access</a></li>
+	 <li><a href="#people_who_can_access">People who can acccess your profile</a></li>
+	 <li><a href="#add_user_who_can_access_your_profile">Add user who can access your profile</a></li>
 	 </ul>
 	 <h3><a id="add_good"></a>Add a good thing that happened  {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
 	 <form action="/add_good_thing_that_happened_to_{% if is_for_self %}self{% else %}other{% endif %}/" method="post">
@@ -25,13 +28,13 @@ Profile
 		<li>{{ good_thing }} by {{ good_thing.author}}<!--  {{ good_thing.created_at }} --></li>
 	{% endfor %}
 	</ul>
-	<h3>Profiles you can access</h3>
+	<h3><a id="profiles_you_can_acccess"></a>Profiles you can access</h3>
 	<ul>
 	 {% for profile in profiles_you_can_acccess %}
 		<li><a href="/profiles/{{ profile.profile_for }}">{{ profile.profile_for }}</a></li>
 	{% endfor %}
 	</ul>
-	<h3>Profiles who can access {% if is_for_self %}your profile{% else %} {{ profile_for }}'s profile{% endif %}</h3>
+	<h3><a id="people_who_can_access"></a>People who can access {% if is_for_self %}your profile{% else %} {{ profile_for }}'s profile{% endif %}</h3>
 
 	<ul>
 	 {% for can_access in who_can_access %}
@@ -39,7 +42,7 @@ Profile
 	{% endfor %}
 	</ul>
 	{% if is_for_self %}
-	<h3>Add user who can access your profile</h3>
+	<h3><a id="/add_user_who_can_access_your_profile"></a>Add user who can access your profile</h3>
 	<form action="/add_user_who_can_access_your_profile/" method="post">
 	  {% csrf_token %}
 	 <label for="add_username">Username</label>
