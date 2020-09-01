@@ -30,15 +30,18 @@ function deleteGoodThing(id) {
 	 <input type="submit" value="Submit">
 	 </form>
 	 <h3><a id="good_things"></a>Good things that happened {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
+	 {% load tz %}
+	 {% localtime on %}
 	 <ul>
 	 {% for good_thing in good_things_that_happened %}
-		<li><strong>by </strong> {{ good_thing.author}}: {{ good_thing }} <!--  {{ good_thing.created_at }} --> 
+		<li><strong>By </strong> {{ good_thing.author}}: {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at }} 
 		{% if good_thing.who_its_about == user or good_thing.author == user %}<button onClick="deleteGoodThing({{ good_thing.id }})">Delete</button>
 		{% endif %}
 		</li>
 	   
 	{% endfor %}
 	</ul>
+	{% endlocaltime %}
 	<h3><a id="profiles_you_can_acccess"></a>Profiles you can access</h3>
 	<ul>
 	 {% for profile in profiles_you_can_acccess %}
