@@ -34,7 +34,7 @@ function deleteGoodThing(id) {
 	 {% localtime on %}
 	 <ul>
 	 {% for good_thing in good_things_that_happened %}
-		<li><strong>By </strong> {{ good_thing.author}}: {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at }} 
+		<li><strong>By:</strong> {{ good_thing.author}} | {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }} 
 		{% if good_thing.who_its_about == user or good_thing.author == user %}<button onClick="deleteGoodThing({{ good_thing.id }})">Delete</button>
 		{% endif %}
 		</li>
