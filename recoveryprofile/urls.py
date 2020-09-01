@@ -13,6 +13,7 @@ urlpatterns = [
     path('profile/', profileviews.profile_for_self),
     path('add_good_thing_that_happened_to_self/', good_things_views.add_good_thing_that_happened_to_self),
     path('add_good_thing_that_happened_to_other/', good_things_views.add_good_thing_that_happened_to_other),
+    path('delete_good_thing_that_happened/', good_things_views.delete_good_thing_that_happened),
     re_path('profiles/(?P<username>\w+)/', profileviews.profile_for_other),
     path('add_user_who_can_access_your_profile/', profileviews.add_user_who_can_access_your_profile),
 ]

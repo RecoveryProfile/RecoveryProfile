@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import GoodThingThatHappened
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 def add_good_thing_that_happened_to_self(request):
      what_happened = request.POST.get('what_happened')
@@ -16,3 +17,12 @@ def add_good_thing_that_happened_to_other(request):
      good_thing_obj = GoodThingThatHappened(what_happened=what_happened, who_its_about=profile_for,  author=request.user)
      good_thing_obj.save()
      return redirect('/profiles/'+profile_for.username)     
+     
+def delete_good_thing_that_happened(request): 
+    good_thing = GoodThingThatHappened.objects.get(pk=request.POST['id'])
+    if not (good_thing.who_its_about == request.user or good_thing.author == request.user):
+        return HttpResponse('failure')
+    good_thing.delete()
+    
+    return HttpResponse('success')
+    

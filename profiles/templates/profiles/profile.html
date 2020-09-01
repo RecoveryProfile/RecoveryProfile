@@ -6,6 +6,13 @@ Profile
 
 
 {% block content %}
+<script>
+function deleteGoodThing(id) {
+	$.post('/delete_good_thing_that_happened/', {'id': id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, function(data) {
+		location.reload();
+	});
+}
+</script>
      <h2>{% if is_for_self %}My Profile {{ user }}{% else %} {{ profile_for }}'s profile{% endif %}</h2>
 	 <img src="/static/recoveryprofile/thankful_heart.jpg" style="width:200px">
 	 <h3>Sections</h3>
@@ -25,7 +32,11 @@ Profile
 	 <h3><a id="good_things"></a>Good things that happened {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
 	 <ul>
 	 {% for good_thing in good_things_that_happened %}
-		<li>{{ good_thing }} by {{ good_thing.author}}<!--  {{ good_thing.created_at }} --></li>
+		<li><strong>by </strong> {{ good_thing.author}}: {{ good_thing }} <!--  {{ good_thing.created_at }} --> 
+		{% if good_thing.who_its_about == user or good_thing.author == user %}<button onClick="deleteGoodThing({{ good_thing.id }})">Delete</button>
+		{% endif %}
+		</li>
+	   
 	{% endfor %}
 	</ul>
 	<h3><a id="profiles_you_can_acccess"></a>Profiles you can access</h3>
