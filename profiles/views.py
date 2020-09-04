@@ -6,6 +6,8 @@ from .models import ProfileAccess
 from django.contrib.auth.models import User
 
 def profile_for_self(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     context = {'good_things_that_happened': GoodThingThatHappened.objects.filter(who_its_about=request.user).order_by('-created_at')}
     context['profiles_you_can_acccess'] = ProfileAccess.objects.filter(access_for=request.user)
     context['is_for_self'] = True
@@ -14,6 +16,8 @@ def profile_for_self(request):
     return render(request, "profiles/profile.html", context)
     
 def profile_for_other(request, username):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     profile_for = User.objects.get(username=username)
     if not request.user.is_authenticated:
         return redirect('/login')
