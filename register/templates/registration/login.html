@@ -8,6 +8,7 @@ Login Here
 
 {% block content %}
      <form method="post" class="from-group">
+ Your username is not your email.<br/>
 	{% csrf_token %}
 	{{form|crispy}}
 	<p>Don't have an accoount? Create one <a href="/register">here</a></p>
