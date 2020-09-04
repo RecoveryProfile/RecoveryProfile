@@ -35,7 +35,7 @@ function deleteGoodThing(id) {
 	 <h3>Your network's Good Things that happened</h3>
 	 <ul>
 	 {% for good_thing in following_users_good_things %}
-		<li><strong>Who it's about:</strong> {{ good_thing.who_its_about }] <strong>By:</strong> {{ good_thing.author}} | {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }} 
+		<li><strong>Who it's about:</strong> {{ good_thing.who_its_about }} <strong>By:</strong> {{ good_thing.author}} | {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }} 
 		
 		</li>
 	   
