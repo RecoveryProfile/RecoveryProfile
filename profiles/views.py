@@ -10,7 +10,7 @@ def profile_for_self(request):
     context['profiles_you_can_acccess'] = ProfileAccess.objects.filter(access_for=request.user)
     context['is_for_self'] = True
     context['who_can_access'] = ProfileAccess.objects.filter(profile_for=request.user)
-    print('who can access',  ProfileAccess.objects.filter(profile_for=request.user))
+    context['following_users_good_things'] = GoodThingThatHappened.objects.filter(who_its_about__in=ProfileAccess.objects.filter(access_for=request.user).values('access_for'))
     return render(request, "profiles/profile.html", context)
     
 def profile_for_other(request, username):

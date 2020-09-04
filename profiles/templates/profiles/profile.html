@@ -29,9 +29,21 @@ function deleteGoodThing(id) {
 	 <textarea name="what_happened" style="margin-left:10px;border:1px solid #000;width:90%; height:150px"></textarea>
 	 <input type="submit" value="Submit">
 	 </form>
-	 <h3><a id="good_things"></a>Good things that happened {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
 	 {% load tz %}
 	 {% localtime on %}
+	 {% if is_for_self %}
+	 <h3>Your network's Good Things that happened</h3>
+	 <ul>
+	 {% for good_thing in following_users_good_things %}
+		<li><strong>By:</strong> {{ good_thing.author}} | {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }} 
+		
+		</li>
+	   
+	{% endfor %}
+	</ul>
+	 {% endif %}
+	 <h3><a id="good_things"></a>Good things that happened {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
+	 
 	 <ul>
 	 {% for good_thing in good_things_that_happened %}
 		<li><strong>By:</strong> {{ good_thing.author}} | {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }} 
