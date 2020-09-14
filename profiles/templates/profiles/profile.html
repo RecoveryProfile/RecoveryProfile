@@ -6,15 +6,36 @@ Profile
 
 
 {% block content %}
+<style>.good_thing {display:none;}</style>
 <script>
 function deleteGoodThing(id) {
 	$.post('/delete_good_thing_that_happened/', {'id': id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, function(data) {
 		location.reload();
 	});
 }
+window.goodThingsIndex = 0
+function displayNextGoodThings() {
+console.log('display')
+console.log(window.goodThingsIndex*5+10);
+console.log((window.goodThingsIndex+1*5));
+   for (var i=window.goodThingsIndex*5+1;i<((window.goodThingsIndex+1)*5)+1;i++) {
+     $('#good_thing_'+i).show()
+	 
+   }
+   window.goodThingsIndex += 1
+}
+setTimeout(displayNextGoodThings,5000)
 </script>
 <div class=" align-items-center p-3 my-3  rounded shadow-sm">
-    
+    <h2>{% if is_for_self %}My Profile {{ user }}{% else %} {{ profile_for }}'s profile{% endif %}</h2>
+	 <img src="/static/recoveryprofile/thankful_heart.jpg" style="width:200px">
+	 <h3>Sections</h3>
+	 <ul><li><a href="#add_good">Add a good thing that happened</a></li>
+	 <li><a href="#good_things">Good things that happened  {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</a></li>
+	 <li><a href="#profiles_you_can_acccess">Profiles you can access</a></li>
+	 <li><a href="#people_who_can_access">People who can acccess your profile</a></li>
+	 <li><a href="#add_user_who_can_access_your_profile">Add user who can access your profile</a></li>
+	 </ul>
       <h3><a id="add_good"></a>Add a good thing that happened  {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
 	  <div style="clear:both"></div>
 	 <form action="/add_good_thing_that_happened_to_{% if is_for_self %}self{% else %}other{% endif %}/" method="post">
@@ -35,7 +56,7 @@ function deleteGoodThing(id) {
 	 <h6 class="border-bottom border-gray pb-2 mb-0">Good things from your connections</h6>
 	 
 	 {% for good_thing in following_users_good_things %}
-		<div class="media text-muted pt-3">
+		<div class="media text-muted pt-3 good_thing" id="good_thing_{{ forloop.counter }}">
       <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
       <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
         <strong class="d-block text-gray-dark"><strong>Who it's about:</strong> @{{ good_thing.who_its_about }} <strong>By:</strong> @{{ good_thing.author}} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }} </strong>
@@ -44,34 +65,14 @@ function deleteGoodThing(id) {
     </div>
 	   
 	{% endfor %}
+	<button onClick=" displayNextGoodThings()">Show more</button>
 	{% endlocaltime %}
 	 {% endif %}
     
   </div>
 
-     <h2>{% if is_for_self %}My Profile {{ user }}{% else %} {{ profile_for }}'s profile{% endif %}</h2>
-	 <img src="/static/recoveryprofile/thankful_heart.jpg" style="width:200px">
-	 <h3>Sections</h3>
-	 <ul><li><a href="#add_good">Add a good thing that happened</a></li>
-	 <li><a href="#good_things">Good things that happened  {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</a></li>
-	 <li><a href="#profiles_you_can_acccess">Profiles you can access</a></li>
-	 <li><a href="#people_who_can_access">People who can acccess your profile</a></li>
-	 <li><a href="#add_user_who_can_access_your_profile">Add user who can access your profile</a></li>
-	 </ul>
+     
 	 
-	 {% load tz %}
-	 {% localtime on %}
-	 {% if is_for_self %}
-	 <h3>Your network's Good Things that happened</h3>
-	 <ul>
-	 {% for good_thing in following_users_good_things %}
-		<li><strong>Who it's about:</strong> @{{ good_thing.who_its_about }} <strong>By:</strong> @{{ good_thing.author}} | {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }} 
-		
-		</li>
-	   
-	{% endfor %}
-	</ul>
-	 {% endif %}
 	 <h3><a id="good_things"></a>Good things that happened {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</h3>
 	 
 	 <ul>
@@ -83,7 +84,6 @@ function deleteGoodThing(id) {
 	   
 	{% endfor %}
 	</ul>
-	{% endlocaltime %}
 	<h3><a id="profiles_you_can_acccess"></a>Profiles you can access</h3>
 	<ul>
 	 {% for profile in profiles_you_can_acccess %}
