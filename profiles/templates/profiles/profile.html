@@ -15,9 +15,6 @@ function deleteGoodThing(id) {
 }
 window.goodThingsIndex = 0
 function displayNextGoodThings() {
-console.log('display')
-console.log(window.goodThingsIndex*5+10);
-console.log((window.goodThingsIndex+1*5));
    for (var i=window.goodThingsIndex*5+1;i<((window.goodThingsIndex+1)*5)+1;i++) {
      $('#good_thing_'+i).show()
 	 
