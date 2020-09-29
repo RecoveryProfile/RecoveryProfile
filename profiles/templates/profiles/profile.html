@@ -28,6 +28,7 @@ setTimeout(displayNextGoodThings,5000)
 	 <img src="/static/recoveryprofile/thankful_heart.jpg" style="width:200px">
 	 <h3>Sections</h3>
 	 <ul><li><a href="#add_good">Add a good thing that happened</a></li>
+	 <li><a href="#network_of_good_things">Good things from your connections</a></li>
 	 <li><a href="#good_things">Good things that happened  {% if is_for_self %}to you{% else %} to {{ profile_for }}{% endif %}</a></li>
 	 <li><a href="#profiles_you_can_acccess">Profiles you can access</a></li>
 	 <li><a href="#people_who_can_access">People who can acccess your profile</a></li>
@@ -50,7 +51,7 @@ setTimeout(displayNextGoodThings,5000)
 	{% load tz %}
 	
 	 {% if is_for_self %} {% localtime on %}
-	 <h6 class="border-bottom border-gray pb-2 mb-0">Good things from your connections</h6>
+	 <h6 class="border-bottom border-gray pb-2 mb-0"><a id="network_of_good_things">Good things from your connections</h6>
 	 
 	 {% for good_thing in following_users_good_things %}
 		<div class="media text-muted pt-3 good_thing" id="good_thing_{{ forloop.counter }}">
