@@ -8,10 +8,21 @@ Profile
 {% block content %}
 <style>.good_thing {display:none;}</style>
 <script>
+function saveGoodThingEdit(id) {
+   console.log($('#editGoodThingTextarea'+id).val())
+   $.post('/save_good_thing_edit', {edit: $('#editGoodThingTextarea'+id).val(), id: id}, function(data) {
+     window.location.reload()
+   })
+}
 function deleteGoodThing(id) {
 	$.post('/delete_good_thing_that_happened/', {'id': id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, function(data) {
 		location.reload();
 	});
+}
+function editGoodThing(id) {
+	$('#editGoodThingTextarea'+id).show()
+	$('#editGoodThingEditButton'+id).hide()
+	$('#editGoodThingSaveButton'+id).show()
 }
 window.goodThingsIndex = 0
 function displayNextGoodThings() {
@@ -21,7 +32,7 @@ function displayNextGoodThings() {
    }
    window.goodThingsIndex += 1
 }
-setTimeout(displayNextGoodThings,5000)
+setTimeout(displayNextGoodThings,2000)
 </script>
 <div class=" align-items-center p-3 my-3  rounded shadow-sm">
     <h2>{% if is_for_self %}My Profile {{ user }}{% else %} {{ profile_for }}'s profile{% endif %}</h2>
@@ -75,7 +86,9 @@ setTimeout(displayNextGoodThings,5000)
 	 
 	 <ul>
 	 {% for good_thing in good_things_that_happened %}
-		<li><strong>By:</strong> {{ good_thing.author}} | {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }} 
+		<li><strong>By:</strong> {{ good_thing.author}} | {{ good_thing }} <strong>Datetime:</strong> {{ good_thing.created_at|localtime|date:"n-j-y g:iA" }}  <textarea id="editGoodThingTextarea{{ good_thing.id }}" style="display:none">{{ good_thing }}</textarea>
+		{% if good_thing.who_its_about == user or good_thing.author == user %}<button id="editGoodThingEditButton{{ good_thing.id }}" onClick="editGoodThing({{ good_thing.id }})">Edit</button><button id="editGoodThingSaveButton{{ good_thing.id }}" style="display:none" onClick="saveGoodThingEdit({{ good_thing.id }})">Save edit</button>
+		{% endif %}
 		{% if good_thing.who_its_about == user or good_thing.author == user %}<button onClick="deleteGoodThing({{ good_thing.id }})">Delete</button>
 		{% endif %}
 		</li>

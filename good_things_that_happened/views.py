@@ -26,3 +26,13 @@ def delete_good_thing_that_happened(request):
     
     return HttpResponse('success')
     
+    save_good_thing_edit
+    
+def save_good_thing_edit(request): 
+    good_thing = GoodThingThatHappened.objects.get(pk=request.POST['id'])
+    if not (good_thing.who_its_about == request.user or good_thing.author == request.user):
+        return HttpResponse('failure')
+    good_thing.what_happened = request.POST['edit']
+    good_thing.save()
+    
+    return HttpResponse('success')
